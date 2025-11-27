@@ -219,7 +219,7 @@ img {
 #slide-1.slide-minimal {
     background: 
         linear-gradient(145deg, #fdf7fa, #f4eefc),
-        url("img/textura-suave.jpg");
+        url("textura-suave.jpg");
     background-size: cover;
     background-blend-mode: soft-light;
 
@@ -443,5 +443,6 @@ img {
     line-height: 1.6;
     font-weight: 300;
 }
+
 
 
