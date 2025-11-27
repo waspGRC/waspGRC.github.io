@@ -1,0 +1,447 @@
+/* ------------------------------
+   RESET & BASE
+------------------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(160deg, #fdf9f5, #f9f3ff);
+    color: #444;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* ------------------------------
+   HEADER
+----------------------------- */
+.header {
+    padding: 5px;
+    text-align: center;
+}
+
+.header-content {
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+}
+
+.header-logo {
+    display: block;
+    max-width: 100px; /* Por ejemplo, que no supere los 150 píxeles de ancho */
+    height: auto;  
+    margin: 0 auto 10px auto;  /* Mantiene la proporción original de la imagen */
+}
+
+.header-title {
+    text-align: center;
+    font-size: 'Bebas Neue';
+    font-size: 3em;
+    font-weight: 900;
+    color: #FFC0CB;
+    text-shadow: 2px 2px 0 #FF69B4, 2px 2px 0 #FF69B4, 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ------------------------------
+   MAIN
+------------------------------ */
+.main {
+    margin-top: 10px;
+    flex: 1;
+}
+
+/* ------------------------------
+   CAROUSEL BASE
+------------------------------ */
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.4s ease-in-out;
+}
+
+/* Cada slide */
+.slide {
+    min-width: 100%;
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px);
+    border-radius: 22px;
+    margin: 12px 0 40px;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ------------------------------
+   TEXTO DE SLIDES
+------------------------------ */
+.slide-title {
+    font-size: 1.3rem;
+    color: #7e6b85;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.slide-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #6d6d6d;
+}
+
+/* ------------------------------
+   INDICADORES DEL CARRUSEL
+------------------------------ */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    gap: 6px;
+}
+
+.indicator {
+    width: 8px;
+    height: 8px;
+    background: #b29cc5;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.indicator.active {
+    width: 20px;
+    border-radius: 10px;
+    background: #b29cc5;
+}
+
+/* ------------------------------
+   FOOTER
+------------------------------ */
+.footer {
+    text-align: center;
+    padding: 16px;
+}
+
+.footer-text {
+    font-size: 0.9rem;
+    color: #8b7e91;
+    opacity: 0.8;
+}
+
+/* ------------------------------
+   ANIMACIONES SUAVES
+------------------------------ */
+.slide-title,
+.slide-text {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(6px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.slide-minimal {
+    padding: 80px 26px;
+    text-align: center;
+    width: 100%;
+    position: relative;
+
+    /* Fondo pastel elegante */
+    background: linear-gradient(180deg, #faf3ff 0%, #fdf9f5 100%);
+    border-radius: 20px;
+
+    /* Sombra suave para que combine con los otros */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+/* Título */
+.slide-minimal .slide-title {
+    font-size: 1.4rem;
+    color: #8f7d8e;
+    margin-bottom: 14px;
+    max-width: 90%;
+    margin: 0 auto 14px;
+}
+
+/* Texto */
+.slide-minimal .slide-text {
+    font-size: 1rem;
+    color: #6b6b6b;
+    line-height: 1.7;
+    font-weight: 300;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+/* Estrellita decorativa arriba */
+.slide-minimal::before {
+    content: "✦";
+    position: absolute;
+    top: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #d6c8da;
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+/* Decoración suave abajo (una sombra o resplandor pastel) */
+.slide-minimal::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 20px;
+    background: radial-gradient(circle, rgba(216,204,227,0.4), transparent);
+    filter: blur(12px);
+    opacity: 0.8;
+}
+#slide-1.slide-minimal {
+    background: 
+        linear-gradient(145deg, #fdf7fa, #f4eefc),
+        url("img/textura-suave.jpg");
+    background-size: cover;
+    background-blend-mode: soft-light;
+
+    border-radius: 18px;
+    padding: 70px 40px;
+    margin: 0 0;
+    box-shadow: 0 8px 18px rgba(180, 160, 200, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Decoración suave: luz en la esquina */
+/* Textura tipo papel */
+#slide-1.slide-minimal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: 
+        repeating-linear-gradient(0deg, rgba(255, 14, 14, 0.018) 0px, transparent 2px),
+        repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.018) 0px, transparent 2px);
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Título */
+#slide-1 .slide-title {
+    font-size: 1.45rem;
+    color: #7e6b85;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+/* Texto */
+#slide-1 .slide-text {
+    font-size: 1.05rem;
+    color: #5d5d5d;
+    line-height: 1.75;
+    font-weight: 300;
+    max-width: 92%;
+    text-align: left;
+}
+
+/* Detalle decorativo inicial */
+#slide-1.slide-minimal::before {
+    content: "✦";
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    color: #ceb9d6;
+    font-size: 1.2rem;
+    opacity: 0.75;
+}
+
+
+/* SLIDDEEEE 2*/
+#slide-2 {
+    background: #ee9ec1; /* pastel rosa muy suave */
+    border-radius: 20px;
+    padding: 50px 30px;
+    margin: 12px 0;
+    box-shadow: 0 6px 14px rgba(180, 160, 200, 0.15);
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Decoraciones suaves tipo confeti */
+#slide-2::before,
+#slide-2::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    top: 15px;
+    left: 15px;
+    box-shadow: 40px 10px rgba(255, 255, 255, 0.4),
+                70px 50px rgba(255, 255, 255, 0.3),
+                100px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Título */
+#slide-2 .slide-title {
+    font-size: 1.35rem;
+    color: #7a5c5c; /* lavanda suave */
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+/* Texto */
+#slide-2 .slide-text {
+    font-size: 1rem;
+    color: #5f5f5f;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+
+/* SLIDDEEE 3*/
+
+#slide-3 {
+    background: #fcdf9c; /* pastel beige suave */
+    border-radius: 22px;
+    padding: 50px 30px;
+    margin: 0;
+    box-shadow: 0 6px 16px rgba(200, 180, 160, 0.15);
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Pseudo-elemento decorativo tipo pan ☺️ */
+#slide-3::before {
+    content: "🍞";
+    position: absolute;
+    font-size: 2rem;
+    top: 16px;
+    right: 20px;
+    opacity: 0.3;
+}
+
+/* Título */
+#slide-3 .slide-title {
+    font-size: 1.35rem;
+    color: #7a5c5c; /* lavanda suave */
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+/* Texto */
+#slide-3 .slide-text {
+    font-size: 1rem;
+    color: #5f5f5f;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+
+
+/*SLIDEEE 4 */
+#slide-4 {
+    background: #c39feb; /* lila pastel suave */
+    border-radius: 22px;
+    padding: 50px 30px;
+    margin: 0;
+    box-shadow: 0 6px 16px rgba(180, 160, 200, 0.15);
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Pseudo-elementos decorativos tipo puntitos */
+#slide-4::before,
+#slide-4::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+}
+
+#slide-4::before { top: 20px; left: 25px; box-shadow: 40px 10px rgba(255,255,255,0.3), 70px 50px rgba(255,255,255,0.2); }
+#slide-4::after { bottom: 30px; right: 30px; box-shadow: -30px 10px rgba(255,255,255,0.25), -60px 40px rgba(255,255,255,0.2); }
+
+/* Título */
+#slide-4 .slide-title {
+    font-size: 1.35rem;
+    color: #7a5c5c;
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+/* Texto */
+#slide-4 .slide-text {
+    font-size: 1rem;
+    color: #5f5f5f;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+/*SLIDEEE 6*/
+#slide-6 {
+    background: #99c8eb; /* azul pastel suave */
+    border-radius: 22px;
+    padding: 50px 30px;
+    margin: 0;
+    box-shadow: 0 6px 16px rgba(160, 180, 200, 0.15);
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Nubes decorativas */
+#slide-6::before,
+#slide-6::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+#slide-6::before { width: 60px; height: 60px; top: 20px; left: 25px; }
+#slide-6::after { width: 80px; height: 80px; bottom: 30px; right: 40px; }
+
+/* Título */
+#slide-6 .slide-title {
+    font-size: 1.35rem;
+    color: #5f6b7a;
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+/* Texto */
+#slide-6 .slide-text {
+    font-size: 1rem;
+    color: #4f5660;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+
