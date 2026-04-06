@@ -1,74 +1,51 @@
-const track = document.querySelector(".carousel-track");
-const slides = Array.from(document.querySelectorAll(".slide"));
-const indicators = Array.from(document.querySelectorAll(".indicator"));
+const letras = [
+  "No quiero tomar cafe...",
+  "Porque el cafe quita el sueño...",
+  "Lo que quiero es tomar TE",
+  "Pues tomando TE me duermo..",
+  "Y una vez que TE tomé.",
+  "Yo tan suave te encontré",
+  "Que todo el tiempo quiero estar.",
+  "Tomando TE"
+];
 
-let currentIndex = 0;
-const totalSlides = slides.length;
+let index = 0;
+let playing = false;
 
-/* --------------------------------
-   FUNCIONES BASE DEL CARRUSEL
------------------------------------*/
-function updateCarousel() {
-    track.style.transform = `translateX(-${currentIndex * 100}%)`;
-    updateIndicators();
+const lyricsContainer = document.getElementById("lyrics");
+const progress = document.getElementById("progress");
+const currentTime = document.getElementById("currentTime");
+
+function togglePlay() {
+  playing = !playing;
+
+  if (playing) {
+    document.querySelector(".play").innerText = "⏸";
+    reproducir();
+  } else {
+    document.querySelector(".play").innerText = "▶";
+  }
 }
 
-function updateIndicators() {
-    indicators.forEach((dot, index) => {
-        if (index === currentIndex) dot.classList.add("active");
-        else dot.classList.remove("active");
-    });
+function reproducir() {
+  if (!playing) return;
+
+  if (index < letras.length) {
+
+    lyricsContainer.innerHTML = `
+      <p class="past">${letras[index - 1] || ""}</p>
+      <p class="current">${letras[index]}</p>
+    `;
+
+    progress.style.width = ((index + 1) / letras.length) * 100 + "%";
+
+    currentTime.innerText = "0:" + (index * 3).toString().padStart(2, '0');
+
+    index++;
+    setTimeout(reproducir, 2500);
+  }
 }
 
-function goToNext() {
-    currentIndex = (currentIndex + 1) % totalSlides;
-    updateCarousel();
+function like() {
+  document.querySelector(".like").innerText = "💚";
 }
-
-function goToPrev() {
-    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-    updateCarousel();
-}
-
-/* --------------------------------
-   SWIPE PARA MOVIL
------------------------------------*/
-let startX = 0;
-let isSwiping = false;
-
-track.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    isSwiping = true;
-});
-
-track.addEventListener("touchmove", (e) => {
-    if (!isSwiping) return;
-});
-
-track.addEventListener("touchend", (e) => {
-    if (!isSwiping) return;
-
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
-
-    if (diff > 50) {
-        goToNext();
-    } else if (diff < -50) {
-        goToPrev();
-    }
-
-    isSwiping = false;
-});
-
-/* --------------------------------
-   CLICK EN INDICADORES (OPCIONAL)
------------------------------------*/
-indicators.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-        currentIndex = index;
-        updateCarousel();
-    });
-});
-
-/* Inicializa */
-updateCarousel();
