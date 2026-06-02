@@ -1,59 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#121212">
-  <title>Now Playing</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Nuestra Noche</title>
 </head>
 <body>
 
-  <div class="app">
-
-    <!-- HEADER -->
-    <div class="header">
-      <span>←</span>
-      <span>⋮</span>
+    <div class="aviso-rotar">
+        <div class="icono-rotar"></div>
+        <p style="margin-top: 15px;">Pon tu telefono en horizontal por favor</p>
     </div>
 
-    <!-- PORTADA -->
-    <img src="ABBYYY.jpeg" class="cover">
+    <div class="background"></div>
+    <div class="stars" id="capa-estrellas"></div>
+    
+    <svg class="constellation-svg" id="svg-constelacion"></svg>
 
-    <!-- INFO CANCIÓN -->
-    <div class="song-info">
-      <h2>Canción del Café</h2>
-      <p>para abby</p>
+    <div id="estrellas-interactivas-layer"></div>
+
+    <div class="texto-container">
+        <p class="frase frase-1">Así se veía el cielo la noche que hablamos por primera vez</p>
+        <p class="frase frase-2">Dos historias que hasta entonces viajaban por separado comenzaron a encontrarse bajo estas mismas estrellas</p>
     </div>
 
-    <!-- LIKE -->
-    <div class="like" onclick="like()">🤍</div>
-
-    <!-- BARRA -->
-    <div class="progress-container">
-      <div class="progress" id="progress"></div>
+    <div class="counter-container">
+        <div class="counter-title">Tiempo juntos</div>
+        <div class="counter-digits" id="contador">0d 00h 00m 00s</div>
     </div>
 
-    <div class="time">
-      <span id="currentTime">0:00</span>
-      <span id="totalTime">0:20</span>
+   <audio id="audioFondo" src="musica.mp3" loop style="display:none;"></audio>
+
+    <div class="modal" id="modalRecuerdo">
+        <p class="modal-text" id="modalTexto">te amo mucho</p>
+        <span class="modal-close" onclick="cerrarRecuerdo()">Continuar</span>
     </div>
 
-    <!-- LETRAS -->
-    <div class="lyrics" id="lyrics"></div>
+    <div class="story-screen" id="pantallaHistoria">
+        <div class="story-content">
+            <h2 class="story-title">Nuestra Constelación</h2>
+            <p class="story-body" id="storyTexto">
+                En la mitología, Perseo salvó a la princesa Andrómeda de un destino trágico. Por eso sus constelaciones permanecen juntas en el cielo, como un recordatorio de que algunas historias están destinadas a encontrarse. 
 
-    <!-- CONTROLES -->
-    <div class="controls">
-      <span>⏮</span>
-      <button class="play" onclick="togglePlay()">▶</button>
-      <span>⏭</span>
+                Nuestra historia fue diferente.
+
+                No hubo monstruos que derrotar ni grandes hazañas que contar. Pero de alguna manera, llegaste a mi vida en el momento indicado y cambiaste muchas cosas sin siquiera darte cuenta. 
+
+                Me enseñaste a ver el futuro con ilusión cuando antes lo veía con incertidumbre. Me enseñaste que no todas las personas llegan para quedarse un instante y marcharse. Y poco a poco, con cada conversación, cada risa y cada recuerdo, convertiste algo cotidiano en algo que jamás quiero olvidar. 
+
+                No sé si las estrellas realmente escriben historias, pero sí sé que aquella noche comenzó la nuestra.
+
+                Y desde entonces, cuando pienso en mis sueños, en mis planes o en los años que todavía nos esperan, siempre encuentro algo que permanece constante.
+
+                Porque entre todos los caminos que pude haber recorrido, mi favorito es el que me llevó hasta ti.
+
+                Y entre todas las estrellas que iluminaban aquella noche, la más importante nunca estuvo en el cielo.
+
+                Eras tú.
+
+            </p>
+        </div>
     </div>
-
-  </div>
-  <audio id="audio" src="cancion.mp3"></audio>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
+
+
