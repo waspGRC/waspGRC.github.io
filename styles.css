@@ -209,22 +209,45 @@ body, html {
         .story-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(4, 5, 8, 0.85); /* Fondo oscuro semitransparente para ver la constelación detrás */
+            background: rgba(4, 5, 8, 0.85); 
             z-index: 200;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; /* <--- CAMBIADO: Alinea al inicio superior para que al hacer scroll empiece desde arriba */
             opacity: 0; pointer-events: none;
             transition: opacity 2.5s ease-in-out;
-            padding: 30px; box-sizing: border-box;
+            padding: 40px 20px; /* <--- AJUSTADO: Menos espacio a los lados en pantallas pequeñas */
+            box-sizing: border-box;
+            overflow-y: auto; /* <--- NUEVO: Activa el scroll vertical solo para esta pantalla si el texto no cabe */
+            -webkit-overflow-scrolling: touch; /* <--- NUEVO: Hace que el scroll en celulares se sienta suave */
         }
+
         .story-screen.active {
             opacity: 1; pointer-events: auto;
         }
+        
         .story-content {
-            max-width: 850px;
+            max-width: 650px;
+            width: 100%;
             text-align: center;
             transform: translateY(20px);
             transition: transform 2.5s ease-in-out;
+            margin-top: auto;   /* <--- NUEVO: Junto con el de abajo, mantiene el texto centrado si es corto... */
+            margin-bottom: auto;/* <--- ...pero permite que se estire y use el scroll si es muy largo */
+            padding: 20px 0;    /* <--- NUEVO: Margen interno para que el texto final no pegue con el borde de la pantalla */
         }
+
+                    .story-body {
+                font-size: 1.1rem; /* Un pelín más pequeño para celulares horizontales ayuda mucho */
+                line-height: 1.8; 
+                color: #e2e8f0; 
+                font-style: italic;
+            }
+            /* Separación mágica entre cada párrafo de tu carta */
+            .story-body p {
+                margin-bottom: 1.5em;
+            }
+
         .story-screen.active .story-content { transform: translateY(0); }
         .story-title {
             font-size: 1.8rem; color: #fbbf24; margin-bottom: 25px; letter-spacing: 2px;
@@ -235,3 +258,23 @@ body, html {
         }
 
         @keyframes fadeInElement { to { opacity: 1; } }
+
+        .final-line{
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: aparecer 2s ease forwards;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
