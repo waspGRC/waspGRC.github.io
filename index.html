@@ -3,85 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Nuestra Noche</title>
+    <title>La Receta de Ti</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lora:ital,wght@0,400..700;1,400..700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <div class="aviso-rotar">
-        <div class="icono-rotar"></div>
-        <p style="margin-top: 15px;">Pon tu telefono en horizontal por favor</p>
-    </div>
+<!-- ESCENA 1 -->
 
-    <div class="background"></div>
-    <div class="stars" id="capa-estrellas"></div>
-    
-    <svg class="constellation-svg" id="svg-constelacion"></svg>
-
-    <div id="estrellas-interactivas-layer"></div>
-
-    <div class="texto-container">
-        <p class="frase frase-1">Así se veía el cielo la noche que hablamos por primera vez</p>
-        <p class="frase frase-2">Dos historias que hasta entonces viajaban por separado comenzaron a encontrarse bajo estas mismas estrellas</p>
-    </div>
-
-    <div class="counter-container">
-        <div class="counter-title">Tiempo juntos</div>
-        <div class="counter-digits" id="contador">0d 00h 00m 00s</div>
-    </div>
-
-   <audio id="audioFondo" src="musica.mp3" loop style="display:none;"></audio>
-
-    <div class="modal" id="modalRecuerdo">
-        <p class="modal-text" id="modalTexto">te amo mucho</p>
-        <span class="modal-close" onclick="cerrarRecuerdo()">Continuar</span>
-    </div>
-
-    <div class="story-screen" id="pantallaHistoria">
-    <div class="story-content">
-        <h2 class="story-title">Nuestra Constelación</h2>
-
-        <p class="story-body">
-            En la mitología, Perseo salvó a la princesa Andrómeda de un destino trágico. Por eso sus constelaciones permanecen juntas en el cielo, como un recordatorio de que algunas historias están destinadas a encontrarse.
-        </p>
-
-        <p class="story-body">
-            Nuestra historia fue diferente.
-        </p>
-
-        <p class="story-body">
-            No hubo monstruos que derrotar ni grandes hazañas que contar. Pero de alguna manera, llegaste a mi vida en el momento indicado y cambiaste muchas cosas sin siquiera darte cuenta.
-        </p>
-
-        <p class="story-body">
-            Me enseñaste a ver el futuro con ilusión cuando antes lo veía con incertidumbre. Me enseñaste que no todas las personas llegan para quedarse un instante y marcharse. Y poco a poco, con cada conversación, cada risa y cada recuerdo, convertiste algo cotidiano en algo que jamás quiero olvidar.
-        </p>
-
-        <p class="story-body">
-            No sé si las estrellas realmente escriben historias, pero sí sé que aquella noche comenzó la nuestra.
-        </p>
-
-        <p class="story-body">
-            Y desde entonces, cuando pienso en mis sueños, en mis planes o en los años que todavía nos esperan, siempre encuentro algo que permanece constante.
-        </p>
-
-        <p class="story-body">
-            Porque entre todos los caminos que pude haber recorrido, mi favorito es el que me llevó hasta ti.
-        </p>
-
-        <p class="story-body">
-            Y entre todas las estrellas que iluminaban aquella noche, la más importante nunca estuvo en el cielo.
-        </p>
-
-        <p class="story-body final-line">
-            Eras tú.
-        </p>
+<div class="screen" id="pantalla1">
+    <div class="canvas-container">
+        <div class="interactive-content">
+            <p class="subtext">
+                "Intenté recrear al amor de mi vida, pero me di cuenta de que no podía hacerlo sin tu ayuda."
+            </p>
+            <button class="btn-start" onclick="abrirLibro()">
+                Cocinar
+            </button>
+        </div>
     </div>
 </div>
+
+<!-- ESCENA 2 -->
+
+<div class="screen book-screen hidden" id="pantalla2">
+    <div class="book">
+    <div class="page left-page">
+        <p id="texto1" class="handwritten">
+            Para crear a alguien tan hermosa, se necesitan ingredientes especiales...
+        </p>
     </div>
-    <script src="script.js"></script>
+
+    <div class="page right-page">
+        <p id="texto2" class="handwritten">
+            Ayúdame a buscarlos
+        </p>
+        <button id="btnBuscar" class="btn-next" onclick="irADespensa()">
+            Cocinar
+        </button>
+    </div>
+
+</div>
+
+</div>
+
+<!-- ESCENA 3 -->
+<div class="screen hidden" id="pantalla3">
+
+    <div class="escena-despensa" id="escena-despensa">
+
+        <div class="escena-despensa" id="escena-despensa">
+    <div class="receta-tracker">
+        <span class="tracker-title">Receta</span>
+        <div class="tracker-emojis" id="tracker-emojis"></div>
+        <span class="tracker-count" id="tracker-count">0/8</span>
+    </div>
+    
+    </div>
+
+        <div class="canvas-container"
+             style="background-image: url('fondoDespensa.jpeg');">
+        </div>
+
+        <div class="estanteria" id="contenedor-frascos"></div>
+
+        <div class="mesa-preparacion">
+            <div class="bowl-placeholder"></div>
+        </div>
+
+
+        <div id="bowl-magico" class="bowl-container">
+    <img src="bowl.png" alt="Bowl" id="bowl-img">
+</div>
+
+
+    </div>
+
+    <div class="modal-overlay hidden" id="modal-ingrediente">
+        <div class="tarjeta-cuento">
+            <h2 id="modal-emoji"></h2>
+            <h3 id="modal-titulo" class="handwritten"></h3>
+            <p id="modal-texto" class="subtext"></p>
+            <button class="btn-start showBtn" onclick="añadirIngrediente()">
+                Añadir a la receta
+            </button>
+        </div>
+    </div>
+
+    <div class="modal-overlay dark hidden" id="modal-final">
+        <div class="tarjeta-cuento glow-effect">
+            <h2>Terminamos</h2>
+            <p class="handwritten" style="opacity: 1;">
+                Pero despues me di cuenta de que...
+            </p>
+            <button class="btn-start showBtn" style="margin-top: 20px;">
+                ¿De qué?
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div id="carta-final" class="carta-fullscreen hidden">
+    <div class="papel-carta">
+        <p id="texto-carta" class="handwritten-letter"></p>
+    </div>
+</div>
+
+<!-- AUDIOS  -->
+<audio id="glassSound" src="glass.mp3"></audio>
+<audio id="dingSound" src="ding.mp3"></audio>
+<audio id="mixSound" src="mix.mp3"></audio>
+<audio id="pageSound" src="libro.mp3"></audio>
+<audio id="magicSound" src="MAGIC.mp3"></audio>
+
+<audio id="cartaMusic" preload="auto">
+    <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<script src="script.js"></script>
 </body>
 </html>
-
 
 
