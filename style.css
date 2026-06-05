@@ -1,0 +1,744 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#f5efe4;
+    font-family:'Quicksand',sans-serif;
+}
+
+/* =========================
+   PANTALLAS
+========================= */
+
+.screen{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:opacity .8s ease, visibility .8s ease;
+}
+
+.hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+/* =========================
+   ESCENA 1
+========================= */
+
+.canvas-container{
+    position:relative;
+    aspect-ratio:16/9;
+    width:100%;
+    max-width:177.78vh;
+    max-height:100vh;
+    background-image:url("fondo1.jpeg");
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:contain;
+    container-type:inline-size;
+}
+
+/* TEXTO SOBRE EL LIBRO */
+
+.interactive-content{
+    position:absolute;
+    left:50%;
+    bottom:30%;
+    transform:translateX(-50%);
+    width:40%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:1.5cqw;
+}
+
+.subtext{
+    font-family:'Lora',serif;
+    font-style:italic;
+    color:#5a4a42;
+    line-height:1.5;
+    text-shadow:1px 1px 2px rgba(255,255,255,.9);
+    font-size:clamp(12px,1.8cqw,20px);
+    opacity:0;
+    animation:fadeUp 1.5s ease forwards;
+    animation-delay:1s;
+}
+
+.btn-start{
+    border:none;
+    cursor:pointer;
+    background:#a4b79a;
+    color:white;
+    border-radius:50px;
+    font-weight:700;
+    padding:1cqw 3cqw;
+    font-size:clamp(10px,1.6cqw,16px);
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+    opacity:0;
+    animation:fadeUp 1.5s ease forwards;
+    animation-delay:2.2s;
+    transition:.25s;
+}
+
+.btn-start:hover{
+    transform:scale(1.05);
+    background:#8fa385;
+}
+
+/* ===================================
+   LIBRO ILUSTRADO
+=================================== */
+
+.book-screen{
+    background:#f8f3eb;
+}
+
+/* LIBRO COMPLETO */
+
+.book{
+    width:90%;
+    max-width:950px;
+    height:80vh;
+    max-height:580px;
+    transform-style: preserve-3d;
+    position:relative;
+    display:flex;
+    background:#f7f1e6;
+    border:12px solid #d8c5b0;
+    border-radius:20px;
+    box-shadow: 0 25px 60px rgba(0,0,0,.15), inset 0 0 20px rgba(255,255,255,.4);
+    overflow:hidden;
+    animation:bookAppear 1.2s ease forwards;
+}
+
+.book-screen{
+    background:#f8f3eb;
+    perspective:2000px;
+}
+
+/* LOMO CENTRAL */
+
+.book::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    width:18px;
+    height:100%;
+    transform:translateX(-50%);
+    background:
+    linear-gradient(
+        to right,
+        rgba(0,0,0,.12),
+        rgba(255,255,255,.15),
+        rgba(0,0,0,.12)
+    );
+}
+
+/* PÁGINAS */
+
+.page{
+    flex:1;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:50px;
+    text-align:center;
+    background:#fdfaf4;
+}
+
+/* MARCO INTERIOR */
+
+.page::before{
+    content:"";
+    position:absolute;
+    top:25px;
+    left:25px;
+    right:25px;
+    bottom:25px;
+    border:2px solid rgba(180,160,140,.15);
+    border-radius:12px;
+    pointer-events:none;
+}
+
+/* FLORECITAS */
+
+.left-page::after{
+    content:"❀";
+    position:absolute;
+    top:25px;
+    left:30px;
+    font-size:28px;
+    color:#d9b4a0;
+}
+
+.right-page::after{
+    content:"✿";
+    position:absolute;
+    top:25px;
+    right:30px;
+    font-size:28px;
+    color:#d9b4a0;
+}
+
+/* TEXTO */
+
+.handwritten{
+    font-family:'Caveat',cursive;
+    font-size:clamp(1.5rem, 4vw, 2.6rem);
+    line-height:1.3;
+    color:#4a3b33;
+    max-width:100%;
+    opacity:0;
+}
+
+/* BOTÓN */
+
+.btn-next{
+    margin-top:30px;
+    padding:12px 30px;
+    border:none;
+    border-radius:25px;
+    background:#a4b79a;
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    opacity:0;
+    transition:.3s;
+}
+
+.btn-next:hover{
+    transform:scale(1.05);
+    background:#8fa385;
+}
+
+/* ==========================
+   ANIMACIÓN DEL LIBRO
+========================== */
+
+@keyframes bookAppear{
+
+    0%{
+        opacity:0;
+        transform:
+            perspective(1200px)
+            rotateY(-50deg)
+            scale(.85);
+    }
+
+    100%{
+        opacity:1;
+        transform:
+            perspective(1200px)
+            rotateY(0deg)
+            scale(1);
+    }
+}
+
+/* ANIMACIÓN DE PÁGINAS */
+
+.left-page{
+    transform-origin:right center;
+}
+
+.right-page{
+    transform-origin:left center;
+}
+
+.animate-left{
+    animation:leftPageOpen 2.5s ease-in-out forwards;
+}
+
+.animate-right{
+    animation:rightPageOpen 2.5s ease-in-out forwards;
+}
+
+@keyframes leftPageOpen{
+
+    from{
+        transform:
+            perspective(1200px)
+            rotateY(120deg);
+    }
+
+    to{
+        transform:
+            perspective(1200px)
+            rotateY(0deg);
+    }
+}
+
+@keyframes rightPageOpen{
+
+    from{
+        transform:
+            perspective(1200px)
+            rotateY(-120deg);
+    }
+
+    to{
+        transform:
+            perspective(1200px)
+            rotateY(0deg);
+    }
+}
+
+/* TEXTOS */
+
+.show1{
+    animation:fadeUp 1.5s ease .8s forwards;
+}
+
+.show2{
+    animation:fadeUp 1.5s ease 2s forwards;
+}
+
+.showBtn{
+    animation:fadeUp 1.5s ease 3s forwards;
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   ANIMACIONES
+========================= */
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes bookOpen{
+
+    from{
+        opacity:0;
+        transform:scale(.9);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* =========================
+   MÓVIL
+========================= */
+
+@media(max-width:700px){
+
+    .interactive-content{
+        width:55%;
+        bottom:16%;
+    }
+
+    .book{
+
+        width:98%;
+        height:75vh;
+    }
+
+    .page{
+
+        padding:15px;
+    }
+
+    .handwritten{
+
+        font-size:1.4rem;
+    }
+
+    .tarjeta-cuento {
+        padding: 20px;
+        gap: 10px;
+    }
+
+    .tarjeta-cuento h2 { font-size: 2.2rem !important; }
+    .tarjeta-cuento h3 { font-size: 1.8rem !important; }
+}
+
+
+
+/* =========================
+   ESCENA 3: LA DESPENSA
+========================= */
+
+#pantalla3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #f5efe4;
+}
+
+.escena-despensa {
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    transform-origin: top left;
+}
+
+/* Fondo de la despensa */
+.escena-despensa .canvas-container{
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    max-width:none;
+    max-height:none;
+    aspect-ratio:auto;
+
+    background-size:cover;
+    background-position:center;
+}
+
+/* Estantería invisible que contiene los frascos */
+.escena-despensa .estanteria {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Frasco base */
+.escena-despensa .frasco {
+    position: absolute;
+    width: 140px;
+    height: auto;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 0.3s ease, filter 0.3s;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.escena-despensa .frasco img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 8px 6px rgba(0,0,0,0.15));
+    pointer-events: none;
+}
+
+.escena-despensa .frasco:hover {
+    transform: scale(1.1) translateY(-5px);
+    filter: drop-shadow(0 15px 10px rgba(255,255,255,0.6));
+}
+
+.escena-despensa .frasco.recolectado {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(80%);
+}
+
+.escena-despensa .frasco.recolectado::after {
+    content: "✔";
+    position: absolute;
+    font-size: 3rem;
+    color: #a4b79a;
+    text-shadow: 0px 0px 5px white;
+}
+
+
+/* Mesa y bowl */
+.escena-despensa .mesa-preparacion {
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 5;
+}
+
+.escena-despensa .bowl-placeholder {
+    font-size: 5rem;
+    opacity: 0.8;
+}
+/*
+
+/* Rastreador de Receta */
+.receta-tracker {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #fdfaf4;
+    border: 3px solid #d8c5b0;
+    padding: 10px 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    z-index: 20;
+}
+
+.tracker-title { font-weight: bold; color: #5a4a42; font-size: 0.9rem;}
+.tracker-emojis { font-size: 1.2rem; margin: 5px 0; letter-spacing: 2px;}
+.tracker-count { font-family: 'Caveat', cursive; font-size: 1.5rem; color: #a4b79a; font-weight: bold;}
+
+/* Estantería y Frascos */
+/* El contenedor de frascos ahora es invisible y cubre todo el lienzo */
+.estanteria {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none; /* Permite hacer clic a través de él */
+}
+
+/* El nuevo diseño del frasco usando tu PNG */
+.frasco {
+    position: absolute;
+    width: 10%; 
+    max-width: 80px; /* Usamos unidades relativas al lienzo para que escale perfecto */
+    height: auto;
+    cursor: pointer;
+    pointer-events: auto; /* Reactivamos el clic solo para el frasco */
+    transition: transform 0.3s ease, filter 0.3s;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.frasco img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 8px 6px rgba(0,0,0,0.15));
+    pointer-events: none; /* Sombrita para que no se vea plano */
+}
+
+.frasco:hover {
+    transform: scale(1.1) translateY(-5px);
+    filter: drop-shadow(0 15px 10px rgba(255,255,255,0.6));
+}
+
+/* =========================================
+   COORDENADAS DE LOS FRASCOS
+========================================= */
+
+.pos-0 { left: 74.6%; top: 5.2%; }
+.pos-1 { left: 79.8%; top: 5.2%; }
+.pos-2 { left: 86.6%; top: 5.2%; }
+
+.pos-3 { top: 29%; right: 21%; }
+.pos-4 { top: 29%; right: 15%; }
+.pos-5 { top: 29%; right: 9%; }
+
+.pos-6 { bottom: 13%; left: 19%; }
+.pos-7 { bottom: 13%; left: 25%; }
+
+.frasco:hover {
+    transform: scale(1.15) translateY(-10px);
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 15px 25px rgba(255,255,255,0.8);
+}
+
+.frasco-emoji { font-size: 2.5rem; }
+.frasco-nombre { font-size: 0.8rem; font-weight: bold; color: #4a3b33; margin-top: 5px; text-align: center; line-height: 1;}
+
+.frasco.recolectado {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(80%);
+}
+
+.frasco.recolectado::after {
+    content: "✔";
+    position: absolute;
+    font-size: 3rem;
+    color: #a4b79a;
+    text-shadow: 0px 0px 5px white;
+}
+
+/* Mesa y Bowl */
+.mesa-preparacion {
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 5;
+}
+
+.bowl-placeholder {
+    font-size: 5rem;
+    opacity: 0.8;
+}
+
+/* Modales */
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(245, 239, 228, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+.modal-overlay.dark {
+    background: rgba(40, 30, 25, 0.85);
+}
+
+.tarjeta-cuento {
+    background: #fdfaf4;
+    border: 6px solid #d8c5b0;
+    padding: 30px; /* Reduje un poco el padding para pantallas pequeñas */
+    border-radius: 20px;
+    text-align: center;
+    
+    /* MODIFICACIONES PARA ADAPTACIÓN */
+    width: 90%; 
+    max-width: 450px; 
+    max-height: 85vh; /* Que nunca ocupe más del 85% de la altura de la pantalla */
+    overflow-y: auto; /* Si el texto es muy largo, permite scroll interno */
+    
+    box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+    transform: scale(0.8);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.modal-overlay:not(.hidden) .tarjeta-cuento {
+    transform: scale(1);
+}
+
+.glow-effect {
+    box-shadow: 0 0 40px rgba(255, 223, 140, 0.6);
+    border-color: #e5cd96;
+}
+
+.modal-overlay h2 { font-size: 3.5rem; margin: 0;}
+.modal-overlay h3 { font-size: 2.5rem; color: #4a3b33;}
+
+.bowl-container {
+    position: absolute;
+    bottom: 5%; /* Ajusta esto según tu dibujo */
+    left: 45%;  /* Ajusta esto para centrarlo en la mesa */
+    width: 15%; /* Tamaño inicial */
+    transition: all 0.5s ease; /* Suaviza el cambio de tamaño y brillo */
+    z-index: 20;
+}
+
+#bowl-img {
+    width: 100%;
+    filter: brightness(1) drop-shadow(0 0 0px rgba(255,255,255,0));
+}
+
+/* Esta clase se activará con JS */
+.bowl-iluminado {
+    filter: brightness(1.5) drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+    transform: scale(1.1); /* Crece un 10% */
+}
+
+
+.carta-container {
+    background: #fffdf5;
+    padding: 40px;
+    width: 80%;
+    max-width: 600px;
+    border: 2px solid #e0d6c0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    text-align: center;
+}
+
+/* Contenedor que ocupa toda la pantalla para la carta */
+.carta-fullscreen {
+position: fixed;
+inset: 0;
+background: #fdfaf4;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1000;
+opacity: 0;
+transition: opacity 2s ease;
+padding: 5%;
+
+overflow-y: auto; /* IMPORTANTE */
+
+}
+
+.papel-carta {
+width: 100%;
+max-width: 700px;
+max-height: 90vh;
+overflow-y: auto;
+padding: 20px;
+
+}
+
+.handwritten-letter {
+font-family: 'Caveat', cursive;
+
+font-size: clamp(1rem, 2vw, 2rem);
+
+line-height: 1.6;
+color: #4a3b33;
+
+white-space: pre-wrap;
+word-break: break-word;
+
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink { from, to { border-color: transparent } 50% { border-color: #4a3b33 } }
+
+@media (max-height: 500px) {
+
+.papel-carta {
+    max-height: 95vh;
+    padding: 10px;
+}
+
+.handwritten-letter {
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+}
