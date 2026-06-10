@@ -183,44 +183,44 @@ html, body {
 
 /* ESCENA FINAL: Solución definitiva */
 .letter-container {
-    width: 100%;
+    width: 90%;
     max-width: 600px;
-    height: 100vh; /* Ocupa toda la altura */
+    margin: 0 auto; /* Centrado horizontal */
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Quitamos el justify-content: center que cortaba el texto */
-    justify-content: flex-start; 
-    padding: 80px 20px; /* Margen superior amplio para que no se corte al inicio */
-    overflow-y: auto; /* Scroll nativo si el texto es largo */
-    -webkit-overflow-scrolling: touch;
-    z-index: 1000; /* Asegura que esté al frente */
+    padding-top: 80px; /* Margen superior interno */
+    padding-bottom: 50px;
+    height: auto; /* IMPORTANTE: dejamos que crezca según el texto */
+    min-height: 80vh; /* Asegura un mínimo de espacio */
+    z-index: 100;
     position: relative;
-    background: transparent; /* Fondo transparente para no tapar */
+    background: transparent;
 }
 
 /* Forzamos que las líneas de texto siempre sean visibles */
 .letter-line {
     opacity: 0;
     transition: opacity 1.5s ease;
-    margin-bottom: 20px; /* Más espacio entre líneas */
+    margin-bottom: 25px; /* Más aire entre líneas */
     text-align: center;
     width: 100%;
     color: #2a221b;
+    font-size: clamp(1.2rem, 4.5vmin, 2.5rem);
+    line-height: 1.5;
 }
 
 .letter-line.visible {
     opacity: 1;
 }
 
-/* Optimización para móviles en horizontal */
-@media screen and (max-height: 500px) and (orientation: landscape) {
-    .letter-container {
-        padding: 10px;
-        justify-content: flex-start; /* Alinea arriba para mejor lectura en horizontal */
+/* 4. Corrección para móviles en horizontal (para que no se desborde) */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+    #scene-13 {
+        padding-bottom: 50px;
     }
-    .letter-line {
-        margin-bottom: 2px !important;
+    .letter-container {
+        padding-top: 40px;
     }
 }
 
