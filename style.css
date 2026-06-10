@@ -181,33 +181,42 @@ html, body {
     box-shadow: inset 0 0 120px rgba(90, 70, 50, 0.15); 
 }
 
-/* ESCENA FINAL: Solución definitiva */
-.letter-container {
-    width: 90%;
-    max-width: 600px;
-    margin: 0 auto; /* Centrado horizontal */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 80px; /* Margen superior interno */
-    padding-bottom: 50px;
-    height: auto; /* IMPORTANTE: dejamos que crezca según el texto */
-    min-height: 80vh; /* Asegura un mínimo de espacio */
-    z-index: 100;
-    position: relative;
-    background: transparent;
+/* ROMPEMOS LAS REGLAS CINEMÁTICAS PARA LA ÚLTIMA ESCENA */
+#scene-13 {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow-y: auto !important; /* HABILITA EL SCROLL */
+    display: block !important;   /* Cambiamos de flex a bloque */
+    background-color: #faf6eb;   /* Color de papel */
 }
 
-/* Forzamos que las líneas de texto siempre sean visibles */
+/* El contenedor de la carta ahora se expande naturalmente */
+.letter-container {
+    width: 90% !important;
+    max-width: 600px !important;
+    margin: 80px auto !important; /* Espacio arriba y abajo */
+    height: auto !important;      /* IMPORTANTE: Deja que crezca según el texto */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    background: transparent !important;
+    padding-bottom: 50px;
+}
+
+/* El texto ahora tiene un tamaño fijo y cómodo, no "gigante" */
 .letter-line {
     opacity: 0;
     transition: opacity 1.5s ease;
-    margin-bottom: 25px; /* Más aire entre líneas */
+    margin-bottom: 20px;
     text-align: center;
     width: 100%;
     color: #2a221b;
-    font-size: clamp(1.2rem, 4.5vmin, 2.5rem);
-    line-height: 1.5;
+    font-size: 1.3rem !important; /* Tamaño fijo, no vmin que lo hace gigante */
+    line-height: 1.6;
 }
 
 .letter-line.visible {
