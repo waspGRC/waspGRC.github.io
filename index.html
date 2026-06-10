@@ -2,130 +2,136 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Receta de Ti</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lora:ital,wght@0,400..700;1,400..700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Un Día Contigo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-<!-- ESCENA 1 -->
-
-<div class="screen" id="pantalla1">
-    <div class="canvas-container">
-        <div class="interactive-content">
-            <p class="subtext">
-                "Intenté recrear al amor de mi vida, pero me di cuenta de que no podía hacerlo sin tu ayuda."
-            </p>
-            <button class="btn-start" onclick="abrirLibro()">
-                Cocinar
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- ESCENA 2 -->
-
-<div class="screen book-screen hidden" id="pantalla2">
-    <div class="book">
-    <div class="page left-page">
-        <p id="texto1" class="handwritten">
-            Para crear a alguien tan hermosa, se necesitan ingredientes especiales...
-        </p>
-    </div>
-
-    <div class="page right-page">
-        <p id="texto2" class="handwritten">
-            Ayúdame a buscarlos
-        </p>
-        <button id="btnBuscar" class="btn-next" onclick="irADespensa()">
-            Cocinar
-        </button>
-    </div>
-
-</div>
-
-</div>
-
-<!-- ESCENA 3 -->
-<div class="screen hidden" id="pantalla3">
-
-    <div class="escena-despensa" id="escena-despensa">
-
-        <div class="escena-despensa" id="escena-despensa">
-    <div class="receta-tracker">
-        <span class="tracker-title">Receta</span>
-        <div class="tracker-emojis" id="tracker-emojis"></div>
-        <span class="tracker-count" id="tracker-count">0/8</span>
-    </div>
+    <canvas id="fx-canvas"></canvas>
     
+    <div id="scroll-indicator">
+        <span class="arrow">↓</span>
     </div>
 
-        <div class="canvas-container"
-             style="background-image: url('fondoDespensa.jpeg');">
-        </div>
+    <div id="narrative-container">
+        
+        <section class="scene active" id="scene-1">
+            <div class="layer bg night-sky"></div>
+            <div class="layer mid constellations"></div>
+            <div class="layer fg glowing-sketches">
+                <div class="sketch sketch-1"></div>
+                <div class="sketch sketch-2"></div>
+                <div class="sketch sketch-3"></div>
+            </div>
+            <h1 class="text-integrated fade-in-slow">¿Qué haría un día entero contigo?</h1>
+        </section>
 
-        <div class="estanteria" id="contenedor-frascos"></div>
+        <section class="scene" id="scene-2">
+            <div class="layer bg parchment-map"></div>
+            <div class="layer mid map-routes">
+                <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+                    <path class="route-line" d="M100,800 C300,700 200,400 500,500 C800,600 700,200 900,100" />
+                    <path class="route-line delay" d="M900,800 C700,900 600,500 400,600 C200,700 300,300 100,200" />
+                </svg>
+            </div>
+            <h2 class="text-integrated draw-text">Pensé en bosques, playas, museos o perdernos por ahi...</h2>
+        </section>
 
-        <div class="mesa-preparacion">
-            <div class="bowl-placeholder"></div>
-        </div>
+        <section class="scene" id="scene-3">
+            <div class="layer bg dark-void"></div>
+            <div class="layer mid glowing-figure-container">
+                <div class="glowing-figure"></div>
+                <div class="glowing-aura"></div>
+            </div>
+            <h2 class="text-integrated whisper">Pero entendí algo: no necesito un día extraordinario si tú ya estás en él.</h2>
+        </section>
 
+        <section class="scene" id="scene-4">
+            <div class="layer bg morning-light"></div>
+            <div class="layer mid window-frame"></div>
+            <div class="layer fg table-mugs">
+                <div class="steam steam-1"></div>
+                <div class="steam steam-2"></div>
+            </div>
+            <h2 class="text-integrated warm-text">Empezaría desde temprano... tal vez no tanto para no molestarte mi dormilona</h2>
+        </section>
 
-        <div id="bowl-magico" class="bowl-container">
-    <img src="bowl.png" alt="Bowl" id="bowl-img">
-</div>
+        <section class="scene" id="scene-5">
+            <div class="layer bg library-depth"></div>
+            <div class="layer mid infinite-shelves"></div>
+            <div class="layer fg floating-pages-container"></div>
+            <h2 class="text-integrated fade-in-slow">Despues podriamos ir a una libreria y leer algo juntos</h2>
+        </section>
 
+        <section class="scene" id="scene-6">
+            <div class="layer bg forest-deep"></div>
+            <div class="layer mid forest-trees"></div>
+            <div class="layer fg light-beams"></div>
+            <h2 class="text-integrated shadow-text">Podriamos caminar sin prisa, disfrutando de nuestra compañia</h2>
+        </section>
+
+        <section class="scene" id="scene-7">
+            <div class="layer bg forest-bright"></div>
+            <div class="layer mid forest-trees-bright"></div>
+            <div class="layer fg swirling-leaves-fx"></div>
+            <h2 class="text-integrated joyful-text">Seguramente terminaría siendo empujado violentamente por ti como venganza</h2>
+        </section>
+
+        <section class="scene" id="scene-8">
+            <div class="layer bg warm-room"></div>
+            <div class="layer mid long-table"></div>
+            <div class="layer fg table-details">
+                <div class="soft-glow-food"></div>
+            </div>
+            <h2 class="text-integrated warm-text">Luego podriamos pasar horas debatiendo qué comer</h2>
+        </section>
+
+        <section class="scene" id="scene-9">
+            <div class="layer bg open-sky"></div>
+            <div class="layer mid horizon-line"></div>
+            <div class="layer fg minimalist-silhouettes"></div>
+            <h2 class="text-integrated breathe-text">Despues podriamos sentarnos y disfrutar de hablar juntos</h2>
+        </section>
+
+        <section class="scene" id="scene-10">
+            <div class="layer bg sunset-sky"></div>
+            <div class="layer mid giant-sun"></div>
+            <div class="layer fg volumetric-rays"></div>
+            <div class="layer fg golden-water"></div>
+            <h2 class="text-integrated sunset-text">Y aunque hoy nos separen muchos kilómetros, seguimos mirando el mismo cielo</h2>
+        </section>
+
+        <section class="scene" id="scene-11">
+            <div class="layer bg deep-distance"></div>
+            <div class="layer mid separated-lights">
+                <div class="light-point left-point"></div>
+                <div class="light-point right-point"></div>
+            </div>
+            <h2 class="text-integrated whisper">Y me gusta pensar que algún día dejaremos de imaginar todo esto para empezar a vivirlo</h2>
+        </section>
+
+        <section class="scene" id="scene-12">
+            <div class="layer bg connecting-sky"></div>
+            <div class="layer mid separated-lights">
+                <div class="light-point left-point"></div>
+                <div class="light-point right-point"></div>
+                <div class="connection-line"></div>
+            </div>
+            <h2 class="text-integrated warm-text">Y ademas porque un solo día nunca sería suficiente para la vida que aún nos queda por compartir</h2>
+        </section>
+
+        <section class="scene" id="scene-13">
+            <div class="layer bg paper-texture"></div>
+            <div class="letter-container">
+                <div id="letter-text"></div>
+            </div>
+        </section>
 
     </div>
-
-    <div class="modal-overlay hidden" id="modal-ingrediente">
-        <div class="tarjeta-cuento">
-            <h2 id="modal-emoji"></h2>
-            <h3 id="modal-titulo" class="handwritten"></h3>
-            <p id="modal-texto" class="subtext"></p>
-            <button class="btn-start showBtn" onclick="añadirIngrediente()">
-                Añadir a la receta
-            </button>
-        </div>
-    </div>
-
-    <div class="modal-overlay dark hidden" id="modal-final">
-        <div class="tarjeta-cuento glow-effect">
-            <h2>Terminamos</h2>
-            <p class="handwritten" style="opacity: 1;">
-                Pero despues me di cuenta de que...
-            </p>
-            <button class="btn-start showBtn" style="margin-top: 20px;">
-                ¿De qué?
-            </button>
-        </div>
-    </div>
-
-</div>
-
-<div id="carta-final" class="carta-fullscreen hidden">
-    <div class="papel-carta">
-        <p id="texto-carta" class="handwritten-letter"></p>
-    </div>
-</div>
-
-<!-- AUDIOS  -->
-<audio id="glassSound" src="glass.mp3"></audio>
-<audio id="dingSound" src="ding.mp3"></audio>
-<audio id="mixSound" src="mix.mp3"></audio>
-<audio id="pageSound" src="libro.mp3"></audio>
-<audio id="magicSound" src="MAGIC.mp3"></audio>
-
-<audio id="cartaMusic" preload="auto">
+    <audio id="bgMusic" loop>
     <source src="musica.mp3" type="audio/mpeg">
 </audio>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
-
