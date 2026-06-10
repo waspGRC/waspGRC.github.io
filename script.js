@@ -4,36 +4,34 @@
     let currentScene = 0;
     let isTransitioning = false;
 
-    // --- NAVEGACIÓN ---
     function goToScene(index) {
-        if (isTransitioning || index < 0 || index >= scenes.length) return;
-        isTransitioning = true;
+    if (isTransitioning || index < 0 || index >= scenes.length) return;
+    isTransitioning = true;
 
-        // Ocultar indicador de scroll en la última escena
-        if (index === scenes.length - 1) {
-            scrollIndicator.classList.add('hidden');
-        } else {
-            scrollIndicator.classList.remove('hidden');
-        }
-
-        const prev = scenes[currentScene];
-        prev.classList.remove('active');
-        prev.classList.add('passed');
-
-        currentScene = index;
-        const next = scenes[currentScene];
-        next.classList.remove('passed');
-        next.classList.add('active');
-
-        // Disparar efectos ambientales según escena
-        updateParticlesForScene(currentScene);
-        if (currentScene === scenes.length - 1) triggerLetterAnimation();
-
-        // Bloqueo temporal para transiciones fluidas
-        setTimeout(() => {
-            isTransitioning = false;
-        }, 3200);
+    // --- NUEVO: Optimización de rendimiento ---
+    // Si llegamos a la última escena, detenemos las partículas para ahorrar recursos
+    if (index === scenes.length - 1) {
+        initParticles('none', 0); 
+    } else {
+        updateParticlesForScene(index);
     }
+    // ------------------------------------------
+
+    const prev = scenes[currentScene];
+    prev.classList.remove('active');
+    prev.classList.add('passed');
+
+    currentScene = index;
+    const next = scenes[currentScene];
+    next.classList.remove('passed');
+    next.classList.add('active');
+
+    if (currentScene === scenes.length - 1) triggerLetterAnimation();
+
+    setTimeout(() => {
+        isTransitioning = false;
+    }, 1000); // Reduje el tiempo de espera para que se sienta más rápido
+}
 
     // Scroll con rueda del ratón
     let wheelTimeout;
