@@ -1,357 +1,314 @@
-window.addEventListener("resize", ajustarEscenaDespensa);
-window.addEventListener("load", ajustarEscenaDespensa);
+    document.addEventListener('DOMContentLoaded', () => {
+    const scenes = document.querySelectorAll('.scene');
+    const scrollIndicator = document.getElementById('scroll-indicator');
+    let currentScene = 0;
+    let isTransitioning = false;
 
-function abrirLibro(){
+    // --- NAVEGACIÓN ---
+    function goToScene(index) {
+        if (isTransitioning || index < 0 || index >= scenes.length) return;
+        isTransitioning = true;
 
-    document.getElementById("pantalla1")
-        .classList.add("hidden");
+        // Ocultar indicador de scroll en la última escena
+        if (index === scenes.length - 1) {
+            scrollIndicator.classList.add('hidden');
+        } else {
+            scrollIndicator.classList.remove('hidden');
+        }
 
-    const pantalla2 =
-        document.getElementById("pantalla2");
+        const prev = scenes[currentScene];
+        prev.classList.remove('active');
+        prev.classList.add('passed');
 
-    pantalla2.classList.remove("hidden");
+        currentScene = index;
+        const next = scenes[currentScene];
+        next.classList.remove('passed');
+        next.classList.add('active');
 
-    setTimeout(() => {
+        // Disparar efectos ambientales según escena
+        updateParticlesForScene(currentScene);
+        if (currentScene === scenes.length - 1) triggerLetterAnimation();
 
-    pageSound.play();
+        // Bloqueo temporal para transiciones fluidas
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 3200);
+    }
 
-}, 100);
+    // Scroll con rueda del ratón
+    let wheelTimeout;
+    window.addEventListener('wheel', (e) => {
+        if (wheelTimeout) clearTimeout(wheelTimeout);
+        wheelTimeout = setTimeout(() => {
+            if (e.deltaY > 25) goToScene(currentScene + 1);
+            else if (e.deltaY < -25) goToScene(currentScene - 1);
+        }, 40);
+    }, { passive: true });
 
-setTimeout(() => {
+    // Gestos táctiles eficientes
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
 
-    document.getElementById("magicSound").play();
+    window.addEventListener('touchend', (e) => {
+        const touchEndY = e.changedTouches[0].clientY;
+        const diff = touchStartY - touchEndY;
+        
+        if (Math.abs(diff) > 40) {
+            if (diff > 0) goToScene(currentScene + 1);
+            else goToScene(currentScene - 1);
+        } else {
+            // Tap dinámico en tercios de pantalla
+            if (touchEndY > window.innerHeight * 0.75) goToScene(currentScene + 1);
+            else if (touchEndY < window.innerHeight * 0.25) goToScene(currentScene - 1);
+        }
+    }, { passive: true });
 
-}, 2800);
 
-setTimeout(() => {
+    // --- CINEMATIC PARALLAX MULTICAPA ---
+    window.addEventListener('mousemove', (e) => {
+        if (currentScene === scenes.length - 1) return; // Desactivar en la carta final
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
-    document.querySelector(".left-page")
-        .classList.add("animate-left");
+        const activeLayers = scenes[currentScene].querySelectorAll('.layer');
+        activeLayers.forEach(layer => {
+            let speed = 0;
+            if (layer.classList.contains('bg')) speed = 8;
+            if (layer.classList.contains('mid')) speed = 18;
+            if (layer.classList.contains('fg')) speed = 32;
 
-    document.querySelector(".right-page")
-        .classList.add("animate-right");
+            layer.style.transform = `translate(${x * -speed}px, ${y * -speed}px) scale(1.1)`;
+        });
+    });
 
-}, 350);
 
-    document.getElementById("texto1")
-        .classList.add("show1");
+    // --- MOTOR DE PARTÍCULAS ATMOSFÉRICAS ---
+    const canvas = document.getElementById('fx-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
 
-    document.getElementById("texto2")
-        .classList.add("show2");
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-    document.getElementById("btnBuscar")
-        .classList.add("showBtn");
-}
+    class Particle {
+        constructor(type) {
+            this.type = type;
+            this.reset();
+            this.y = Math.random() * canvas.height; // Distribución inicial uniforme
+        }
 
-// =========================
-// DATOS DE LOS INGREDIENTE
-// =========================
-const ingredientes = [
-{
-id: 'ternura',
-nombre: 'Resiliencia',
-emoji: 'Resiliencia',
-desc: 'Una cucharada generosa, porque siempre encuentras la forma de seguir adelante, incluso cuando estas nerviosa y es algo que admiro mucho de ti.',
-img: 'frasco4.png'
-},
-{
-id: 'alegria',
-nombre: 'Alegría',
-emoji: 'Alegria',
-desc: 'Dos cucharadas de alegría, porque tienes una manera hermosa de iluminar incluso los días más grises sin que lo notes',
-img: 'frasco4.png'
-},
-{
-id: 'enojo',
-nombre: 'Enojo',
-emoji: 'Enojo',
-desc: 'Una pizca de enojo, porque cuando te enojas si me das miedo.',
-img: 'frasco4.png'
-},
-{
-id: 'paciencia',
-nombre: 'Paciencia',
-emoji: 'Paciencia',
-desc: 'Una taza de paciencia, porque sabes como escuchar y acompañar, en especial mucho conmigo.',
-img: 'frasco4.png'
-},
-{
-id: 'dulzura',
-nombre: 'Dulzura',
-emoji: 'Dulzura',
-desc: 'Tres cucharadas de dulzura, porque aun por mas pequeña que sea la situacion, siempre encuentras una manera de hacerla unica, y porque también te encantan los postres.',
-img: 'frasco4.png'
-},
-{
-id: 'determinacion',
-nombre: 'Determinación',
-emoji: 'Determinacion',
-desc: 'Dos cucharadas de determinación, porque cuando quieres algo siempre lo obtienes.',
-img: 'frasco4.png'
-},
-{
-id: 'sensibilidad',
-nombre: 'Sensibilidad',
-emoji: 'Sensibilidad',
-desc: 'Una cucharada de sensibilidad, porque sientes muy profundo y aunque a veces te lastime, también es lo que te hace ser abby',
-img: 'frasco4.png'
-},
-{
-id: 'amor',
-nombre: 'Amor',
-emoji: 'Amor',
-desc: 'La cantidad necesaria de amor, porque aunque en principio no lo demuestres, tienes muchisimo amor para dar y eso es algo hermoso e inesperado de ti',
-img: 'frasco4.png'
-}
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = canvas.height + Math.random() * 80;
+            this.size = Math.random() * 2 + 0.5;
+            this.speedY = 0;
+            this.speedX = 0;
+            this.opacity = Math.random() * 0.6 + 0.1;
+            this.life = 0;
+            this.maxLife = Math.random() * 250 + 150;
+
+            if (this.type === 'stars') {
+                this.y = Math.random() * canvas.height;
+                this.speedY = (Math.random() - 0.5) * 0.08;
+                this.speedX = (Math.random() - 0.5) * 0.08;
+                this.color = `rgba(255, 255, 255, ${this.opacity})`;
+            } else if (this.type === 'dust') {
+                this.speedY = -(Math.random() * 0.4 + 0.1);
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.color = `rgba(255, 235, 190, ${this.opacity})`;
+            } else if (this.type === 'leaves') {
+                this.size = Math.random() * 4 + 2.5;
+                this.speedY = Math.random() * 1.2 + 0.6;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.angle = Math.random() * Math.PI * 2;
+                this.spin = (Math.random() - 0.5) * 0.08;
+                this.color = `rgba(165, 210, 135, ${this.opacity})`;
+                this.y = -40;
+            } else if (this.type === 'sunset') {
+                this.speedY = -(Math.random() * 0.8 + 0.2);
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.color = `rgba(255, 160, 90, ${this.opacity})`;
+                this.size = Math.random() * 3 + 1;
+            }
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.life++;
+
+            if (this.type === 'leaves') {
+                this.angle += this.spin;
+                this.x += Math.sin(this.life * 0.04) * 0.8;
+            }
+
+            if (this.life > this.maxLife || this.y < -90 || this.y > canvas.height + 90 || this.x < -50 || this.x > canvas.width + 50) {
+                this.reset();
+            }
+
+            let currentOpacity = this.opacity;
+            if (this.life < 60) currentOpacity *= (this.life / 60);
+            if (this.maxLife - this.life < 60) currentOpacity *= ((this.maxLife - this.life) / 60);
+            
+            this.color = this.color.replace(/[\d.]+\)$/g, `${currentOpacity})`);
+        }
+
+        draw() {
+            ctx.beginPath();
+            if (this.type === 'leaves') {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.fillStyle = this.color;
+                ctx.ellipse(0, 0, this.size, this.size * 0.5, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            } else {
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+    }
+
+    function initParticles(type, count) {
+        particles = [];
+        if (type === 'none') return;
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle(type));
+        }
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    function updateParticlesForScene(index) {
+        if (index === 0 || index === 1 || index === 10 || index === 11) initParticles('stars', 80);
+        else if (index === 2 || index === 3 || index === 7) initParticles('dust', 50);
+        else if (index === 4 || index === 5 || index === 6) initParticles('leaves', 35);
+        else if (index === 8 || index === 9) initParticles('sunset', 65);
+        else initParticles('none', 0);
+    }
+
+    // Inicializar primera escena
+    updateParticlesForScene(0);
+
+
+    // --- ELEMENTOS DE LA ESCENA 5 (PÁGINAS VOLANTES) ---
+    const pagesContainer = document.querySelector('.floating-pages-container');
+    for (let i = 0; i < 12; i++) {
+        const page = document.createElement('div');
+        page.style.position = 'absolute';
+        page.style.width = '24px';
+        page.style.height = '34px';
+        page.style.background = 'rgba(255, 250, 240, 0.55)';
+        page.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        page.style.left = `${Math.random() * 100}%`;
+        page.style.top = `${Math.random() * 100}%`;
+        page.style.transform = `rotate(${Math.random() * 360}deg)`;
+        page.style.filter = `blur(${Math.random() * 1.5}px)`;
+        page.style.transition = 'transform 12s ease-in-out';
+        
+        setInterval(() => {
+            if (currentScene === 4) {
+                page.style.transform = `translate(${(Math.random() - 0.5) * 150}px, ${(Math.random() - 0.5) * 150}px) rotate(${Math.random() * 360}deg)`;
+            }
+        }, 4000 + Math.random() * 2000);
+
+        pagesContainer.appendChild(page);
+    }
+
+
+    // --- ANIMACIÓN DE LA CARTA ESCRITA A MANO ---
+    const letterLines = [
+      "¿Qué haría un día entero contigo?",
+  "Es una pregunta que me hizo pensar, porque si tuviera que elegir, tenemos muchísimas opciones.",
+  "Podríamos irnos a un bosque, a la playa, a un museo, a una librería, o simplemente perdernos por ahí.",
+  "Pero siendo realistas, un día no sería suficiente para todo esto.",
+  "Después de pensarlo mucho, llegué a una conclusión:",
+  "No necesito un día extraordinario para disfrutarlo,",
+  "si el simple hecho de que tú estuvieras, lo haría más que extraordinario.",
+  "Empezaría desde temprano, tal vez no tanto para no molestarte, mi dormilona,",
+  "con un café y un desayuno que te hiciera feliz.",
+  "Escucharía todo lo que tengas que contarme,",
+  "sin fijarnos en la hora, sin preocuparnos por el tiempo.",
+  "Después, visitaríamos esa librería pendiente,",
+  "caminaríamos descubriendo libros y leyendo juntos, aunque fuera por un momento.",
+  "Luego, pasearíamos por algún lugar bonito,",
+  "donde cualquier sitio se siente diferente si camino contigo.",
+  "Seguramente terminaría dándote pequeños empujones y tú regresándomelos con el triple de fuerza.",
+  "Como a los dos nos gusta comer, pasaríamos más tiempo decidiendo qué probar que comiendo,",
+  "pero seguramente compartiríamos platos y descubriríamos sabores nuevos.",
+  "Después, bastaría con sentarnos juntos,",
+  "hablar de nosotros y disfrutar del silencio sin que se vuelva incómodo.",
+  "Aunque vivamos muy lejos y esto sea una ilusión por ahora,",
+  "tengo la certeza de que algún día, no tendremos que imaginarlo, sino vivirlo.",
+  "Pero aún así, un solo día no sería suficiente.",
+  "Porque tenemos muchas conversaciones pendientes, muchos lugares por conocer,",
+  "y muchísimos recuerdos por crear.",
+  "Entonces, si me preguntas qué haría un día entero contigo,",
+  "mi respuesta sería: disfrutar cada momento a tu lado.",
+  "Al final, lo importante no es qué haríamos ni cómo lo haríamos.",
+  "Lo importante sería estar contigo.",
+  "Donde sea, pero contigo."
 ];
 
+    let letterTriggered = false;
 
-let recolectados = 0;
-let ingredienteActualId = null;
-
-// =========================
-// LÓGICA DE LA DESPENSA
-// =========================
-
-function irADespensa() {
-    // Transición de la escena 2 a la 3
-    document.getElementById("pantalla2").classList.add("hidden");
-    const pantalla3 = document.getElementById("pantalla3");
-    pantalla3.classList.remove("hidden");
-    
-    // Generar frascos en el HTML
-    renderizarFrascos();
-    ajustarEscenaDespensa();
-}
-
-function renderizarFrascos() {
-    const contenedor = document.getElementById("contenedor-frascos");
-    contenedor.innerHTML = ""; 
-
-    ingredientes.forEach((ing, index) => {
-        const frasco = document.createElement("div");
+    function triggerLetterAnimation() {
+        if (letterTriggered) return;
+        letterTriggered = true;
         
-        // Le asignamos la clase base "frasco" y su posición única (pos-0, pos-1...)
-        frasco.className = `frasco pos-${index}`;
-        frasco.id = `frasco-${ing.id}`;
-        frasco.onclick = () => abrirModalIngrediente(ing);
+        const container = document.getElementById('letter-text');
+        container.innerHTML = '';
         
-        // Reemplazamos el emoji por la etiqueta img. 
-        // Nota: asumo que tendrás un archivo como 'frasco-calma.png' guardado
-        frasco.innerHTML = `
-            <img src="${ing.img}" alt="${ing.nombre}">
-        `;
-        
-        contenedor.appendChild(frasco);
-    });
-}
-
-function añadirIngrediente() {
-    // Sonido de confirmación suave
-    const dingSnd = document.getElementById("dingSound");
-    if(dingSnd) { dingSnd.currentTime = 0; dingSnd.play(); }
-
-    // Ocultar modal
-    document.getElementById("modal-ingrediente").classList.add("hidden");
-
-    // Marcar frasco como recolectado
-    const frascoVisual = document.getElementById(`frasco-${ingredienteActualId}`);
-    frascoVisual.classList.add("recolectado");
-
-    // Actualizar contadores
-    recolectados++;
-    document.getElementById("tracker-count").innerText = `${recolectados}/8`;
-    
-    // Buscar emoji del ingrediente actual para añadirlo a la lista superior
-    const ing = ingredientes.find(i => i.id === ingredienteActualId);
-    document.getElementById("tracker-emojis").innerText += ing.emoji;
-
-    ingredientesSeleccionados++;
-    actualizarBowl();
-
-
-    // Checar si ya completó la receta
-    if (recolectados === 8) {
-        setTimeout(activarMagiaFinal, 1000); // Pequeña pausa dramática
-    }
-}
-
-
-function activarMagiaFinal() {
-    // Sonido mágico de mezcla
-    const mixSnd = document.getElementById("mixSound");
-    if(mixSnd) { mixSnd.currentTime = 0; mixSnd.play(); }
-
-    // Mostrar modal final oscuro con brillo
-    document.getElementById("modal-final").classList.remove("hidden");
-    
-    // Aquí podrías agregar librerías de partículas como canvas-confetti o hacer animaciones extra
-}
-
-function ajustarEscenaDespensa() {
-    const escena = document.getElementById("escena-despensa");
-    if (!escena) return;
-
-    const baseW = 1920;
-    const baseH = 1080;
-
-    const scaleX = window.innerWidth / baseW;
-    const scaleY = window.innerHeight / baseH;
-    const scale = Math.min(scaleX, scaleY);
-
-    escena.style.transform = `scale(${scale})`;
-    escena.style.left = `${(window.innerWidth - baseW * scale) / 2}px`;
-    escena.style.top = `${(window.innerHeight - baseH * scale) / 2}px`;
-}
-
-let ingredientesSeleccionados = 0;
-
-function actualizarBowl() {
-    const bowl = document.getElementById("bowl-magico");
-    const bowlImg = document.getElementById("bowl-img");
-
-    // 1. Efecto de crecimiento progresivo
-    // Cada ingrediente aumenta el tamaño base. 
-    // Empezamos en 15%, cada uno suma 1% adicional.
-    const nuevoTamano = 15 + (ingredientesSeleccionados * 1.5); 
-    bowl.style.width = nuevoTamano + "%";
-
-    // 2. Efecto de iluminación
-    // A medida que agregamos ingredientes, el brillo aumenta
-    if (ingredientesSeleccionados > 0) {
-        bowl.classList.add("bowl-iluminado");
-        // Aumentamos el resplandor según la cantidad
-        bowlImg.style.filter = `brightness(${1 + (ingredientesSeleccionados * 0.1)}) drop-shadow(0 0 ${ingredientesSeleccionados * 5}px rgba(255, 255, 255, 0.6))`;
-    }
-
-    // 3. Si llega a los 8, puedes disparar una animación extra
-    if (ingredientesSeleccionados === 8) {
-        console.log("¡La receta está lista!");
-        bowl.style.transform = "scale(1.2) rotate(5deg)"; // Animación de finalización
-    }
-}
-
-function abrirModalIngrediente(ing) {
-    // 1. Sonido de vidrio
-    const glassSnd = document.getElementById("glassSound");
-    if(glassSnd) { glassSnd.currentTime = 0; glassSnd.play(); }
-
-    // 2. Guardar ID del ingrediente
-    ingredienteActualId = ing.id;
-    
-    // 3. Llenar datos de la tarjeta
-    document.getElementById("modal-emoji").innerText = ing.emoji;
-    document.getElementById("modal-titulo").innerText = ing.nombre;
-    const texto = document.getElementById("modal-texto");
-    texto.innerText = ing.desc;
-    
-    // 4. Mostrar modal
-    document.getElementById("modal-ingrediente").classList.remove("hidden");
-}
-
-function activarMagiaFinal() {
-    // 1. Primero, mostramos el modal que ya tenías de "Receta Completada"
-    const modalFinal = document.getElementById("modal-final");
-    modalFinal.classList.remove("hidden");
-
-
-
-    // 2. Esperar 5 segundos y luego hacer la transición a la carta
-    setTimeout(() => {
-        // Desvanecer toda la pantalla
-        const pantalla3 = document.getElementById("pantalla3");
-        pantalla3.style.transition = "opacity 2s ease";
-        pantalla3.style.opacity = "0";
-
-        // Iniciar música
-        const music = document.getElementById("musicBackground");
-        if(music) music.play();
-
-        // 3. Mostrar la carta en blanco
         setTimeout(() => {
-            const carta = document.getElementById("carta-final");
-            carta.classList.remove("hidden");
-            carta.style.opacity = "1"; // Animación de aparición
-            
-            const cartaMusic = document.getElementById("cartaMusic");
+            letterLines.forEach((text, index) => {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'letter-line';
+                lineDiv.textContent = text;
+                container.appendChild(lineDiv);
+                
+                setTimeout(() => {
+                    lineDiv.classList.add('visible');
+                }, index * 2200); 
+            });
+        }, 2500);
+    }
+});
 
-if (cartaMusic) {
-    cartaMusic.volume = 0.3;
-    cartaMusic.play();
-     let volumen = 0;
+const music = document.getElementById('bgMusic');
 
+function startMusic() {
+    music.volume = 0;
+    music.play();
+
+    let volume = 0;
     const fade = setInterval(() => {
-        volumen += 0.02;
+        volume += 0.02;
 
-        if (volumen >= 0.35) {
-            volumen = 0.35;
+        if (volume >= 0.5) {
+            volume = 0.5;
             clearInterval(fade);
         }
 
-        cartaMusic.volume = volumen;
+        music.volume = volume;
     }, 100);
+
+    document.removeEventListener('click', startMusic);
 }
 
-
-      // Efecto de escritura
-escribirCarta(`Pensé que podría hacerte una receta
-
-Pensé que, si observaba lo suficiente, podría explicarte con algunos ingredientes
-
-Un poquito de resiliencia
-Un poquito de alegría
-Una pizquita de enojo
-Un puñado de dulzura
-Paciencia
-Sensibilidad
-Amor
-
-Y por un momento pense que si los mezclaba todos podría recrearte
-
-Pero estaba equivocado
-porque tu no eres la suma de tus cualidades, no eres solo una lista de cosas bonitas
-no eres un conjunto de ingredientes cuidadosamente seleccionados
-
-Eres esas risas (sonrisas) que aparecen cuando menos las espero
-Los momentos que hacen que un día muy difícil se sienta mucho más ligero
-
-La calma que encuentro cuando todo parece interminable
-La personita que hace que mi mundo sea un lugar mucho mejor simplemente por existir
-Y por eso nunca pude terminar la receta
-
-Por eso nunca pude hornearte
-Porque alguien como tú no se puede crear.
-Ni se puede copiar
-Ni se puede explicar por completo
-
-Solo se puede encontrar
-Y de todas las casualidades que pudieron ocurrir en mi vida...
-
-Encontrarte a ti siempre será lo mejor que me pudo pasar`);
-
-}, 2000); // 2 segundos para completar el desvanecimiento
-}, 5000); // Los 5 segundos que pediste de espera
-}
-
-
-// Función para el efecto de escritura
-function escribirCarta(mensaje) {
-const contenedor = document.getElementById("texto-carta");
-
-contenedor.innerHTML = "";
-
-let i = 0;
-
-function escribir() {
-    if (i < mensaje.length) {
-        contenedor.innerHTML += mensaje.charAt(i);
-        i++;
-        setTimeout(escribir, 35);
-    }
-}
-
-escribir();
-
-}
-
-
+document.addEventListener('click', startMusic);
