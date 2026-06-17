@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Enviar datos silenciosamente usando Web3Forms
         // REEMPLAZA "TU_ACCESS_KEY_DE_WEB3FORMS" con la llave que te den en web3forms.com
         const formData = new FormData();
-        formData.append("access_key", "TU_ACCESS_KEY_DE_WEB3FORMS");
+        formData.append("access_key", "bfba8a7f-4cb5-4e66-a721-c048764eaef2");
         formData.append("subject", "¡Dijo que SÍ a la cita!");
         formData.append("message", `Te han aceptado la cita. La fecha elegida es: ${selectedDate}`);
 
