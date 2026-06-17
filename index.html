@@ -3,135 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Un Día Contigo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+    <title>Un pequeño secreto...</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <canvas id="fx-canvas"></canvas>
-    
-    <div id="scroll-indicator">
-        <span class="arrow">↓</span>
+    <div id="stars-container"></div>
+
+    <div id="app">
+        <div class="scene active" id="scene-0">
+            <div class="glass-card">
+                <p>Tengo una pregunta importante para ti, Abby...</p>
+                <span class="tap-hint">(Toca la pantalla suavemente)</span>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-1">
+            <div class="glass-card">
+                <p>Pero antes...</p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-2">
+            <div class="glass-card">
+                <p>Quería recordarte que, sin importar lo lejos que estemos...</p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-3">
+            <div class="glass-card">
+                <p>Siempre compartiremos el mismo cielo estrellado.</p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-4">
+            <div class="glass-card">
+                <p>Y ahora viene la pregunta que realmente quería hacerte...</p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-final">
+            <div class="glass-card final-card">
+                <p class="question-text">¿Quieres tener una cita conmigo?</p>
+                <div class="date-wrapper">
+                    <label for="date-picker">Elige nuestro día especial:</label>
+                    <input type="date" id="date-picker" class="elegant-input" required>
+                </div>
+                <div class="buttons">
+                    <button id="btn-yes">❤️ Sí quiero</button>
+                    <button id="btn-no">🙈 No quiero</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-success">
+            <div class="glass-card success-card">
+                <h2>¡Es una cita! ✨</h2>
+                <p>Nuestra cita bajo las estrellas será el:</p>
+                <p id="date-display" class="highlight-date"></p>
+                <p>No puedo esperar.</p>
+            </div>
+        </div>
     </div>
 
-    <div id="narrative-container">
-        
-        <section class="scene active" id="scene-1">
-            <div class="layer bg night-sky"></div>
-            <div class="layer mid constellations"></div>
-            <div class="layer fg glowing-sketches">
-                <div class="sketch sketch-1"></div>
-                <div class="sketch sketch-2"></div>
-                <div class="sketch sketch-3"></div>
-            </div>
-            <h1 class="text-integrated fade-in-slow">¿Qué haría un día entero contigo?</h1>
-        </section>
-
-        <section class="scene" id="scene-2">
-            <div class="layer bg parchment-map"></div>
-            <div class="layer mid map-routes">
-                <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
-                    <path class="route-line" d="M100,800 C300,700 200,400 500,500 C800,600 700,200 900,100" />
-                    <path class="route-line delay" d="M900,800 C700,900 600,500 400,600 C200,700 300,300 100,200" />
-                </svg>
-            </div>
-            <h2 class="text-integrated draw-text">Pensé en bosques, playas, museos o perdernos por ahi...</h2>
-        </section>
-
-        <section class="scene" id="scene-3">
-            <div class="layer bg dark-void"></div>
-            <div class="layer mid glowing-figure-container">
-                <div class="glowing-figure"></div>
-                <div class="glowing-aura"></div>
-            </div>
-            <h2 class="text-integrated whisper">Pero entendí algo: no necesito un día extraordinario si tú ya estás en él.</h2>
-        </section>
-
-        <section class="scene" id="scene-4">
-            <div class="layer bg morning-light"></div>
-            <div class="layer mid window-frame"></div>
-            <div class="layer fg table-mugs">
-                <div class="steam steam-1"></div>
-                <div class="steam steam-2"></div>
-            </div>
-            <h2 class="text-integrated warm-text">Empezaría desde temprano... tal vez no tanto para no molestarte mi dormilona</h2>
-        </section>
-
-        <section class="scene" id="scene-5">
-            <div class="layer bg library-depth"></div>
-            <div class="layer mid infinite-shelves"></div>
-            <div class="layer fg floating-pages-container"></div>
-            <h2 class="text-integrated fade-in-slow">Despues podriamos ir a una libreria y leer algo juntos</h2>
-        </section>
-
-        <section class="scene" id="scene-6">
-            <div class="layer bg forest-deep"></div>
-            <div class="layer mid forest-trees"></div>
-            <div class="layer fg light-beams"></div>
-            <h2 class="text-integrated shadow-text">Podriamos caminar sin prisa, disfrutando de nuestra compañia</h2>
-        </section>
-
-        <section class="scene" id="scene-7">
-            <div class="layer bg forest-bright"></div>
-            <div class="layer mid forest-trees-bright"></div>
-            <div class="layer fg swirling-leaves-fx"></div>
-            <h2 class="text-integrated joyful-text">Seguramente terminaría siendo empujado violentamente por ti como venganza</h2>
-        </section>
-
-        <section class="scene" id="scene-8">
-            <div class="layer bg warm-room"></div>
-            <div class="layer mid long-table"></div>
-            <div class="layer fg table-details">
-                <div class="soft-glow-food"></div>
-            </div>
-            <h2 class="text-integrated warm-text">Luego podriamos pasar horas debatiendo qué comer</h2>
-        </section>
-
-        <section class="scene" id="scene-9">
-            <div class="layer bg open-sky"></div>
-            <div class="layer mid horizon-line"></div>
-            <div class="layer fg minimalist-silhouettes"></div>
-            <h2 class="text-integrated breathe-text">Despues podriamos sentarnos y disfrutar de hablar juntos</h2>
-        </section>
-
-        <section class="scene" id="scene-10">
-            <div class="layer bg sunset-sky"></div>
-            <div class="layer mid giant-sun"></div>
-            <div class="layer fg volumetric-rays"></div>
-            <div class="layer fg golden-water"></div>
-            <h2 class="text-integrated sunset-text">Y aunque hoy nos separen muchos kilómetros, seguimos mirando el mismo cielo</h2>
-        </section>
-
-        <section class="scene" id="scene-11">
-            <div class="layer bg deep-distance"></div>
-            <div class="layer mid separated-lights">
-                <div class="light-point left-point"></div>
-                <div class="light-point right-point"></div>
-            </div>
-            <h2 class="text-integrated whisper">Y me gusta pensar que algún día dejaremos de imaginar todo esto para empezar a vivirlo</h2>
-        </section>
-
-        <section class="scene" id="scene-12">
-            <div class="layer bg connecting-sky"></div>
-            <div class="layer mid separated-lights">
-                <div class="light-point left-point"></div>
-                <div class="light-point right-point"></div>
-                <div class="connection-line"></div>
-            </div>
-            <h2 class="text-integrated warm-text">Y ademas porque un solo día nunca sería suficiente para la vida que aún nos queda por compartir</h2>
-        </section>
-
-        <section class="scene" id="scene-13">
-            <div class="layer bg paper-texture"></div>
-            <div class="letter-container">
-                <div id="letter-text"></div>
-            </div>
-        </section>
-
-    </div>
-    <audio id="bgMusic" loop>
-    <source src="musica.mp3" type="audio/mpeg">
-</audio>
     <script src="script.js"></script>
 </body>
 </html>
