@@ -1,1 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Un pequeño secreto...</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="stars-container"></div>
 
+    <div id="app">
+        <div class="scene active" id="scene-0">
+            <div class="glass-card">
+                <p>Tengo una pregunta muy importante para ti Abby</p>
+                <span class="tap-hint">(Toca la pantalla)</span>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-1">
+            <div class="glass-card">
+                <p>Pero antes...</p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-2">
+            <div class="glass-card">
+                <p>Quería recordarte que aunque estemos lejos.</p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-3">
+            <div class="glass-card">
+                <p>Siempre compartimos el mismo cielo bonito como tu.</p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-4">
+            <div class="glass-card">
+                <p>Y ahora la pregunta que quería hacerte...</p>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-final">
+            <div class="glass-card final-card">
+                <p class="question-text">Quieres tener una cita conmigo?</p>
+                <div class="date-wrapper">
+                    <label for="date-picker">Elige una fecha:</label>
+                    <input type="date" id="date-picker" class="elegant-input" required>
+                </div>
+                <div class="buttons">
+                    <button id="btn-yes"> Sí quiero</button>
+                    <button id="btn-no">Nooo quiero</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="scene" id="scene-success">
+            <div class="glass-card success-card">
+                <h2>Muy bien!</h2>
+                <p>Nuestra cita será el:</p>
+                <p id="date-display" class="highlight-date"></p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
